@@ -11,6 +11,6 @@ RUN npm install --legacy-peer-deps
 
 RUN npm run db:generate && npm run build
 
-EXPOSE 3000
+EXPOSE 5000
 
 CMD ["npm", "start"]
