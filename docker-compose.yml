@@ -1,18 +1,7 @@
+# docker-compose.yml
 version: "3.8"
 
 services:
-  db:
-    image: mysql:8
-    restart: always
-    container_name: mysql_tsi
-    ports:
-      - "3309:3306"
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: document-share-tsi
-    volumes:
-      - db_data:/var/lib/mysql
-
   web:
     build: .
     container_name: nextjs_tsi
@@ -20,8 +9,11 @@ services:
       - "5000:3000"
     env_file:
       - .env
-    depends_on:
-      - db
+    # Hubungkan ke network yang sama dengan MySQL existing
+    networks:
+      - shared-net
 
-volumes:
-  db_data:
+# Tambahkan network
+networks:
+  shared-net:
+    external: true # kita akan buat ini secara manual
