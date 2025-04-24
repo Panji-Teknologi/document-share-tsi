@@ -1,21 +1,38 @@
-# docker-compose.yml
 version: "3.8"
 
 services:
   web:
     build: .
+    container_name: tsi-document-share
     ports:
-      - "5000:5000" # Pastikan mapping-nya ke 5000
-    env_file:
-      - .env
+      - "5000:5000" # Map port 5000 di container ke port 5000 di host
     environment:
-      - DATABASE_URL=mysql://root:admin@194.195.92.47:3309/document-share-tsi
+      - PORT=5000
+      - DATABASE_URL=mysql://root:admin@mysql-tsi:3306/document-share-tsi # Ganti dengan port 3310
       - NEXTAUTH_URL=http://localhost:5000
       - NEXTAUTH_SECRET=verySecretKey
     networks:
-      - shared-net
+      - document-share-tsi-net
+    depends_on:
+      - mysql-tsi
 
-# Tambahkan network
+  mysql-tsi:
+    image: mysql:8
+    container_name: tsi-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: document-share-tsi
+    ports:
+      - "3310:3306" # Map port 3310 di host ke port 3306 di container MySQL
+    networks:
+      - document-share-tsi-net
+    volumes:
+      - mysql-data:/var/lib/mysql
+
 networks:
-  shared-net:
-    external: true # kita akan buat ini secara manual
+  document-share-tsi-net:
+    driver: bridge
+
+volumes:
+  mysql-data:
+    driver: local
