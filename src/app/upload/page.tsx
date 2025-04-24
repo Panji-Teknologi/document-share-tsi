@@ -1,5 +1,10 @@
-import Upload from '@/views/upload';
+import { Suspense } from "react";
+import Upload from "@/views/upload";
 
 export default function DefaultDashboardPage() {
-  return <Upload />;
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      <Upload />
+    </Suspense>
+  );
 }

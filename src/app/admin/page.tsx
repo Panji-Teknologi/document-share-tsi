@@ -1,7 +1,12 @@
-import Admin from '@/views/auth/admin';
+import { Suspense } from "react";
+import Admin from "@/views/auth/admin";
 
 // ==============================|| PAGE ||============================== //
 
 export default function RegisterPage() {
-  return <Admin />;
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      <Admin />
+    </Suspense>
+  );
 }

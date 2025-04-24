@@ -1,5 +1,10 @@
-import Drive from '@/views/drive';
+import { Suspense } from "react";
+import Drive from "@/views/drive";
 
 export default function DefaultDashboardPage() {
-  return <Drive />;
+  return (
+    <Suspense fallback={<>Loading...</>}>
+      <Drive />
+    </Suspense>
+  );
 }

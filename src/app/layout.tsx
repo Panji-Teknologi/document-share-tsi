@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ProviderWrapper from "./ProviderWrapper";
-import React, { Suspense } from "react";
+import React from "react";
 // import { startCronJob } from "@/lib/cron";
 // import './index.module.css'
 
@@ -24,9 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Suspense fallback={<>Loading...</>}>
-          <ProviderWrapper>{children}</ProviderWrapper>
-        </Suspense>
+        <ProviderWrapper>{children}</ProviderWrapper>
       </body>
     </html>
   );
