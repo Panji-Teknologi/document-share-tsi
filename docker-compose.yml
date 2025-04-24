@@ -8,6 +8,10 @@ services:
       - "5000:5000" # Pastikan mapping-nya ke 5000
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=mysql://root:admin@194.195.92.47:3309/document-share-tsi
+      - NEXTAUTH_URL=http://localhost:5000
+      - NEXTAUTH_SECRET=verySecretKey
     networks:
       - shared-net
 
