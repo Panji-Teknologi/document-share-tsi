@@ -10,7 +10,8 @@ module.exports = {
         NODE_ENV: "production",
         PORT: 3001,
         NEXTAUTH_URL: "https://194.195.92.47:3001/",
-        DATABASE_URL: "mysql://root:admin@localhost:3308/document-tsi",
+        DATABASE_URL:
+          "mysql://root:admin@194.195.92.47:3309/document-share-tsi",
         NEXTAUTH_SECRET: "verySecretKey",
       },
     },
