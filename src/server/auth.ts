@@ -13,8 +13,7 @@ import { JWT } from "next-auth/jwt";
 import { User } from "next-auth";
 
 import prisma from "@/utils/prisma";
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -44,7 +43,10 @@ declare module "next-auth" {
  */
 export const authOptions: NextAuthOptions = {
   callbacks: {
-    jwt: async ({ token, user }: {
+    jwt: async ({
+      token,
+      user,
+    }: {
       token: JWT;
       user: User | undefined;
       account: Account | null | undefined;
@@ -52,11 +54,11 @@ export const authOptions: NextAuthOptions = {
     }) => {
       if (user) {
         // @ts-ignore
-        token.email = user.email
+        token.email = user.email;
       }
       return token;
     },
-    session: ({ session, user }) => ({
+    session: ({ session }) => ({
       ...session,
       user: {
         ...session.user,
@@ -67,19 +69,19 @@ export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     CredentialsProvider({
-      id: 'login',
-      name: 'login',
+      id: "login",
+      name: "login",
       credentials: {
         email: { label: "Email", type: "email", placeholder: "" },
-        password: { label: "Password", type: "password" }
+        password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
         try {
           const user = await prisma.user.findUnique({
             where: {
-              email: credentials?.email
-            }
-          })
+              email: credentials?.email,
+            },
+          });
 
           if (!user) {
             return null;
@@ -97,8 +99,8 @@ export const authOptions: NextAuthOptions = {
           const errorMessage = e?.response.data.message;
           throw new Error(errorMessage);
         }
-      }
-    })
+      },
+    }),
     /**
      * ...add more providers here.
      *
@@ -110,35 +112,35 @@ export const authOptions: NextAuthOptions = {
      */
   ],
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
     maxAge: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60
+    updateAge: 24 * 60 * 60,
   },
   jwt: {
     secret: process.env.NEXTAUTH_SECRET,
     async encode({ secret, token }) {
       if (!token) {
-        throw new Error('No token encode!')
+        throw new Error("No token encode!");
       }
       return jwt.sign(token, secret);
     },
     async decode({ secret, token }) {
       if (!token) {
-        throw new Error('No token decode!')
+        throw new Error("No token decode!");
       }
 
       const decodedToken = jwt.verify(token, secret);
 
-      if (typeof decodedToken === 'string') {
+      if (typeof decodedToken === "string") {
         return JSON.parse(decodedToken);
       } else {
         return decodedToken;
       }
-    }
+    },
   },
   pages: {
-    signIn: '/ ',
-  }
+    signIn: "/",
+  },
 };
 
 /**
