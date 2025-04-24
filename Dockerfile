@@ -4,12 +4,10 @@ WORKDIR /app
 
 COPY . .
 
-RUN corepack enable && \
-    corepack prepare pnpm@9.1.0 --activate && \
-    pnpm install --frozen-lockfile
+RUN npm install --legacy-peer-deps
 
-RUN pnpm db:generate && pnpm build
+RUN npm run db:generate && npm run build
 
 EXPOSE 3000
 
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]
