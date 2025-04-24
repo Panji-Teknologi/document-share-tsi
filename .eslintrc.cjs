@@ -1,14 +1,16 @@
 /** @type {import("eslint").Linter.Config} */
 const config = {
-  parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
-    project: true
+    project: true,
   },
-  plugins: ['@typescript-eslint'],
-  extends: 'next',
+  plugins: ["@typescript-eslint"],
+  extends: "next",
   rules: {
-    'react/no-unescaped-entities': 'off',
-    '@next/next/no-page-custom-font': 'off'
-  }
+    "react/no-unescaped-entities": "off",
+    "@next/next/no-page-custom-font": "off",
+    "react-hooks/exhaustive-deps": "off",
+    "@next/next/no-img-element": "off",
+  },
 };
 module.exports = config;
