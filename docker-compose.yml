@@ -4,35 +4,12 @@ services:
   web:
     build: .
     container_name: tsi-document-share
+    network_mode: "host" # This gives the container access to the host's network
     ports:
-      - "5000:5000" # Map port 5000 di container ke port 5000 di host
+      - "5000:5000"
     environment:
       - PORT=5000
-      - DATABASE_URL=mysql://root:admin@mysql-tsi:3306/document-share-tsi # Ganti dengan port 3310
+      - DATABASE_URL=mysql://root:admin@194.195.92.47:3309/document-share-tsi
       - NEXTAUTH_URL=http://localhost:5000
       - NEXTAUTH_SECRET=verySecretKey
-    networks:
-      - document-share-tsi-net
-    depends_on:
-      - mysql-tsi
-
-  mysql-tsi:
-    image: mysql:8
-    container_name: tsi-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: document-share-tsi
-    ports:
-      - "3310:3306" # Map port 3310 di host ke port 3306 di container MySQL
-    networks:
-      - document-share-tsi-net
-    volumes:
-      - mysql-data:/var/lib/mysql
-
-networks:
-  document-share-tsi-net:
-    driver: bridge
-
-volumes:
-  mysql-data:
-    driver: local
+    restart: unless-stopped
